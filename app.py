@@ -7,7 +7,8 @@ from flask_cors import CORS
 def create_app():
     app = Flask(__name__)
     # Enable CORS for all routes and origins
-    CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    
     # JWT Secret Key - in production, use a secure random key and environment variables
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'my_temporary_secret_key')
     
