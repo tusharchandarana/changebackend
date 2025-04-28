@@ -3,7 +3,7 @@ from flask_cors import CORS
 from routes.user_route import user_bp
 from routes.habit_route import habit_bp
 import os
-
+from flask_cors import CORS
 def create_app():
     app = Flask(__name__)
     # Enable CORS for all routes and origins

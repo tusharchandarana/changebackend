@@ -3,6 +3,7 @@ from models.user_model import create_user, find_user_by_email
 from werkzeug.security import check_password_hash
 import jwt
 import datetime
+from config import user_collection
 
 
 user_bp = Blueprint('user_bp', __name__)
@@ -78,11 +79,17 @@ def token_required(f):
         return f(user_id, *args, **kwargs)
     
     return decorated
+from bson import ObjectId  # Ensure this import is present
 
-# Protected route example
 @user_bp.route("/profile", methods=["GET"])
 @token_required
 def get_profile(user_id):
-    # Get user from database
-    # In a real app, you'd retrieve user details from your database
-    return jsonify({"message": "Profile accessed", "user_id": user_id}), 200
+    user = user_collection.find_one({ "_id": ObjectId(user_id) })  # Corrected line
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    profile = {
+        "username": user["username"],
+        "email": user["email"]
+    }
+    return jsonify({"profile": profile}), 200

@@ -14,7 +14,7 @@ def create_app():
     
     # Register blueprints with URL prefixes
     app.register_blueprint(user_bp, url_prefix='/api/user')
-    app.register_blueprint(habit_bp, url_prefix='/api/habit')
+    app.register_blueprint(habit_bp, url_prefix='/api/habits')
     
     # Health check route
     @app.route('/health', methods=['GET'])
